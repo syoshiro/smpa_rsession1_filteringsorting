@@ -1,1 +1,1 @@
-# smpa_rsession1_intro_filteringsorting
+# smpa_rsession1_filteringsorting
