@@ -63,28 +63,6 @@ mynames[1]
 mynames[3]
 
 
-# Certain operations in R are "vectorized" - which means that unlike
-# in other programming languages, you don't have to write a loop to
-# iterate through the list.
-
-# Let's see how this works:
-# We'll create two vectors, one for monthly revenue one for expenses
-revenue <- c(14574, 7606, 8611, 9175, 8058, 8105, 11496, 9766, 10305, 14379, 10713, 15433)
-expenses <- c(12051, 5695, 12319, 12089, 8658, 840, 3285, 5821, 6976, 16618, 10054, 3803)
-
-revenue
-
-expenses
-
-# Now let's calculate the profit: the difference between revenue and expenses
-revenue - expenses
-
-# can save the results as a new object
-profit <- revenue - expenses
-
-profit
-
-
 # Now by itself, R has certain capabilities built in.
 # But the real power comes from using what are known as "packages,"
 # which you can think of kind of like apps on your phone.
