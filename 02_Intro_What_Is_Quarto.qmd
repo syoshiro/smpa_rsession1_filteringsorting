@@ -56,7 +56,6 @@ Let's try it...
 
 So everything you put in the R chunk gets run as R code. This is essentially the reverse of what happens in a regular R file -- where everything is code, and you comment out (#) the stuff that's explanatory text.
 
-\
 Here, the reverse is happening: everything is explanatory text unless otherwise specified, and the R code goes in the chunks.
 
 #### "In-line" R snippets
