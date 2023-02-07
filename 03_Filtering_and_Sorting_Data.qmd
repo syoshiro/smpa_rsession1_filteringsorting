@@ -264,122 +264,138 @@ Now that we've saved our New York to Sarasota flights as a file, we'll use that 
 
 <br>
 
+## Financial Data - More Sorting and Filtering
+
+We'll now use the filtering skills we've been learning and apply it to some financial data gathered live off the web using a package called `tidyquant`. (We loaded it at the top of the script.)
+
+Let's see how it works...
+
+Set the stock ticker as an object and the start and end dates for the data that you want to download.
 
 ```{r}
 
-
+ticker <- "MSFT"  
 
 ```
 
-
+Use the `tq_get()` function from the tidyquant package to download the stock data. This function returns a data frame containing the date, open, high, low, and close prices for each day. For example, from the start of 2023:
 
 ```{r}
-# set the stock ticker and the start and end dates for the data that you want to download. For example:
 
-ticker <- "MSFT"  # Set the stock ticker
+stock_data <- tq_get(ticker, get = "stock.prices", from = "2023-01-01")
+
+stock_data
+
 ```
 
+Let's go back even farther, to the beginning of 2022.
+
 ```{r}
-# Use the tq_get() function from the tidyquant package to download the stock data. This function returns a data frame containing the date, open, high, low, and close prices for each day. For example:
 
 stock_data <- tq_get(ticker, get = "stock.prices", from = "2022-01-01")
 
 stock_data
+
 ```
 
-```{r}
-# Use the ggplot2 package to create a line chart of the stock's closing price over time. You can do this by using the ggplot() and geom_line() functions, and setting the x aesthetic to the date column and the y aesthetic to the close column. For example:
+Now that we have our data, let's use some filtering and sorting to answer some questions.
 
-ggplot(stock_data, aes(x = date, y = close)) +
-  geom_line()
+-   What were the five highest closing prices for the company since the start of 2022?
+
+```{r}
+
+stock_data %>% 
+  arrange(desc(close)) %>% 
+  head(5)
+
 ```
 
-```{r}
-############
+-   How about the five lowest?
 
-#with only a start and no end date
-aapl_prices  <- tq_get("AAPL", get = "stock.prices", from = "2022-01-01")
-aapl_prices
+```{r}
+
+stock_data %>% 
+  arrange(close) %>% 
+  head(5)
+
 ```
 
+-   Could we use filtering to isolate the highest price, without relying on sorting it like above? Let's take a look:
+
 ```{r}
-aapl_prices %>% 
-  arrange(desc(date))
+
+stock_data %>% 
+  filter(close == max(close))
+
 ```
 
+-   Now let's do the same, this time for the lowest, or minimum price?
+
 ```{r}
-aapl_prices %>%
-  ggplot(aes(x = date, y = close)) +
-  geom_line() +
-  labs(title = "Apple Stock Price", y = "Closing Price", x = "")
+
+stock_data %>% 
+  filter(close == min(close))
+
 ```
 
-```{r}
-# simple moving averages
+-   Can we use a similar strategy to show us the most recent date available in our price dataset?
 
-aapl_prices %>%
-  ggplot(aes(x = date, y = close)) +
-  geom_line() +
-  labs(title = "Apple Stock Price", y = "Closing Price", x = "") +
-  geom_ma(ma_fun = SMA, n = 50, color = "red", size = 1.25) +
-  theme_minimal()
+```{r}
+
+stock_data %>% 
+  filter(date == max(date))
+
 ```
 
-```{r}
-### multiple companies
+You may be asking yourself, what if we wanted to calculate aggregate measures, like the average or median? We'll discuss this in the next lesson, when we get to grouping and summarizing data in R.
 
+For now, think about what we just did above...and what we'd need to do if we wanted to conduct the same analysis for another company instead?
 
-#with only a start and no end date
-mycompanies  <- tq_get(c("AAPL", "MSFT", "NYT", "XOM"), 
-                       get = "stock.prices", 
-                       from = "2022-01-01")
-mycompanies 
+What would we have to change? How many changes would we have to make. Let's discuss. And then try it out.
 
-mycompanies %>% 
-  count(symbol)
-```
+<br>
 
-```{r}
-mycompanies %>%
-  ggplot(aes(x = date, y = close)) +
-  geom_line() +
-  labs(title = "", y = "Closing Price", x = "") +
-  facet_wrap(~ symbol, ncol = 2, scale = "free_y")
-```
+Finally, let's also look at how easy it is to grab economic indicator data from FRED.
+
+A wealth of economic data can be extracted from the Federal Reserve Economic Data (FRED) database. It contains over 10K data sets that are free to use. See the FRED categories to narrow down the data base and to get data codes.
+https://fred.stlouisfed.org/categories
+
+We'll choose one that you've likely crossed paths with in the real world recently: gas prices. *US Regular All Formulations Gas Price (GASREGW), weekly.*
 
 ```{r}
-# simple moving averages
 
-mycompanies %>%
-  ggplot(aes(x = date, y = close)) +
-  geom_line() +
-  labs(title = "", y = "Closing Price", x = "") +
-  geom_ma(ma_fun = SMA, n = 50, color = "red", size = 1.25) +
-  facet_wrap(~ symbol, ncol = 2, scale = "free_y") +
-  theme_minimal()
-```
+gasprices_weekly <- tq_get("GASREGW", 
+                           get = "economic.data", 
+                           from = "2022-01-01")
 
-```{r}
-# FRED Economic Data
-# A wealth of economic data can be extracted from the Federal Reserve Economic Data (FRED) database. The FRED contains over 10K data sets that are free to use. See the FRED categories to narrow down the data base and to get data codes. 
-# categories: https://fred.stlouisfed.org/categories
-```
-
-```{r}
-# US Regular All Formulations Gas Price (GASREGW), weekly
-gasprices_weekly <- tq_get("GASREGW", get = "economic.data", from = "2022-01-01")
 gasprices_weekly
 ```
 
-```{r}
-ggplot(gasprices_weekly, aes(x = date, y = price)) +
-  geom_line(color = "darkred") +
-  theme_minimal()
-```
+-   With our gas prices data in hand, let's see what week had the highest since the start of 2022... How would we do it?
 
 ```{r}
-# 30 year mortgage rate average, weekly
-mortgate_30yr_weekly <- tq_get("MORTGAGE30US", get = "economic.data", from = "2022-01-01")
-mortgate_30yr_weekly
+
+
+
+
 ```
 
+-   How about the lowest?
+
+```{r}
+
+
+
+
+```
+
+-   How about the highest price since August 2022?
+
+```{r}
+
+
+
+
+```
+
+Great. Now each of you will try a set of exercises to see how you do with these concepts.
