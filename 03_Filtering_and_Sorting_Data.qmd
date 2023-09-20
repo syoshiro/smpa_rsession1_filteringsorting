@@ -52,7 +52,7 @@ We can also return just the few rows using `head()`.
 
 ```{r}
 
-head(flightdata)
+head(flightdata, 10)
 
 ```
 
@@ -181,7 +181,14 @@ Dplyr makes this all easy using the `select()` function. Let's take a look...
 ```{r}
 
 flightdata  %>% 
-  select(carrier, flight, origin, dest, month, day, sched_dep_time, dep_delay)
+  select(carrier,
+         flight,
+         origin,
+         dest,
+         month, 
+         day, 
+         sched_dep_time, 
+         dep_delay)
 
 ```
 
@@ -215,8 +222,8 @@ So if our goal was to focus in on just these first-quarter Sarasota flights from
 
 ```{r}
 
-sarasota_q1 <- flightdata %>% 
-  filter(dest == "SRQ", month <= 3) %>% 
+targetcity <- flightdata %>% 
+  filter(dest == "SRQ") %>% 
   select(carrier, flight, origin, dest, 
          month, day, sched_dep_time, dep_delay)
 
@@ -228,7 +235,7 @@ Why don't we actually see anything show up below? We didn't ask R to actually sh
 
 ```{r}
 
-sarasota_q1
+targetcity_q1
 
 ```
 
@@ -246,7 +253,7 @@ So how do we do *that*?
 
 ```{r}
 #special R binary format
-saveRDS(sarasota_q1, "data/sarasota_q1_flights.rds")
+saveRDS(targetcity_q1, "data/targetcity_q1_flights.rds")
 
 ```
 
@@ -256,7 +263,7 @@ Saving to Excel is as simple as the following using the `writexl` package...
 
 ```{r}
 
-write_xlsx(sarasota_q1, "data/sarasota_q1_flights.xlsx")
+write_xlsx(targetcity_q1, "data/targetcity_q1_flights.xlsx")
 
 ```
 

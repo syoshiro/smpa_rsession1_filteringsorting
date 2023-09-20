@@ -36,15 +36,17 @@
 #it's for making a list (known as a "vector") of values.
 
 c("Billy","Sallie")
-
+c(1,2,3)
 
 #Other languages call them variables, R calls them objects...but they're the same idea
 #Assigning something a name, so that you can use it
 
-myobject <- 1
+myobject <- 10
+banana <- 1
+
 
 #now I can tell R to give me the value of myobject by referring to it by its name
-myobject
+myobject + 5
 
 #let's try another
 mynames <- c("Billy","Sallie","Tony")
