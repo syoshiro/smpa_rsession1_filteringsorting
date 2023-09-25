@@ -48,8 +48,7 @@ impeach
 
 ```{r}
 
-
-
+filter(impeach, for_impeachment == "NO")
 
 
 
@@ -60,6 +59,7 @@ impeach
 ```{r}
 
 
+filter(impeach, for_impeachment == "NO", p16winningparty == "R" )
 
 
 
@@ -70,6 +70,7 @@ impeach
 ```{r}
 
 
+filter(impeach, for_impeachment == "NO", p16winningparty == "R", p12winningparty == "R")
 
 
 
@@ -80,7 +81,7 @@ impeach
 ```{r}
 
 
-
+filter(impeach, date_month == "9", date_year == "2019", for_impeachment == "YES")
 
 
 ```
@@ -89,7 +90,7 @@ impeach
 
 ```{r}
 
-
+filter(impeach, for_impeachment == "YES", clinton_percent > 70)
 
 
 
@@ -100,7 +101,9 @@ impeach
 ```{r}
 
 
-
+impeach %>% 
+  arrange(pct_bachelors)
+  
 
 
 
@@ -110,8 +113,8 @@ impeach
 
 ```{r}
 
-
-
+filter(impeach, for_impeachment == "NO") %>%
+   arrange(pct_bachelors)
 
 
 ```
@@ -122,9 +125,8 @@ Then filter those records by only those whose bachelor's percentage is below the
 
 ```{r}
 
-
-
-
+filter(impeach, for_impeachment == "NO", pct_bachelors_compared_to_national == "BELOW") %>%
+   arrange(pct_bachelors)
 
 
 ```
@@ -134,7 +136,7 @@ Then filter those records by only those whose bachelor's percentage is below the
 ```{r}
 
 
-
+filter(impeach, state == "NJ", for_impeachment == "NO")
 
 
 ```
@@ -144,7 +146,8 @@ Then filter those records by only those whose bachelor's percentage is below the
 ```{r}
 
 
-
+filter(impeach, for_impeachment == "YES", date_year < "2019") %>%
+  arrange(desc(clinton_percent))
 
 
 ```
