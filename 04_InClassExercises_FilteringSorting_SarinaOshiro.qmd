@@ -46,6 +46,8 @@ impeach
 
 1)  The column "for_impeachment" indicates whether the member has publicly called for an impeachment inquiry. Filter to return only the ones where the answer is NO.
 
+## I am filtering for the impeach dataset AND a "NO" response in the for_impeachment column.
+
 ```{r}
 
 filter(impeach, for_impeachment == "NO")
@@ -55,7 +57,9 @@ filter(impeach, for_impeachment == "NO")
 ```
 
 2)  Filter to return only results where a member is both against impeachment, and comes from a district that President Trump won in 2016 (which is noted in the "p16winningparty" column).
-
+-
+-
+## Filtering again for impeach dataset, NO response in for_impeachment column, AND an "R" response in the p16winningparty column (which represents districts with Trump, the Republican, won in 2016)
 ```{r}
 
 
@@ -66,7 +70,9 @@ filter(impeach, for_impeachment == "NO", p16winningparty == "R" )
 ```
 
 3)  Filter for only results where a member is against impeachment, comes from a district that President Trump won in 2016 (which is noted in the "p16winningparty" column), and also comes from a district that Mitt Romney won in 2012 ("p12winningparty").
-
+-
+-
+## Filtering for impeach dataset, "NO" response in the for_impeachment column, an "R" response in the p16winningparty column, AND an "R" response in the 2012 column (which represents districts where the Republican, Mitt Romney, won the presidential race)
 ```{r}
 
 
@@ -77,7 +83,9 @@ filter(impeach, for_impeachment == "NO", p16winningparty == "R", p12winningparty
 ```
 
 4)  Filter for only results from September 2019 where a member is a YES for impeachment.
-
+-
+-
+## I am filtering for impeach dataset, responses of "2019" in the column for years, AND a "YES" response in the column for_impeachment. 
 ```{r}
 
 
@@ -87,7 +95,9 @@ filter(impeach, date_month == "9", date_year == "2019", for_impeachment == "YES"
 ```
 
 5)  Filter for only results where a member is a YES for impeachment and is from a district where Clinton won more than 70 percent of the vote in 2016 (found in column "clinton_percent").
-
+-
+-
+## Filtering for the impeach dataset, a "YES" vote in the for_impeachment column, and rows where the number in the clinton_percent column was greater than (>) 70. 
 ```{r}
 
 filter(impeach, for_impeachment == "YES", clinton_percent > 70)
@@ -97,6 +107,9 @@ filter(impeach, for_impeachment == "YES", clinton_percent > 70)
 ```
 
 6)  Sort the entire dataframe based on the percentage of a district that has a bachelor's degree or higher ("pct_bachelors"), from lowest to highest.
+-
+-
+## To sort, I indicated the dataframe and then used the arrange function, which sorts the data by the column I indicated (pct_bachelors) from lowest to highest by default. 
 
 ```{r}
 
@@ -110,7 +123,9 @@ impeach %>%
 ```
 
 7)  Sort the just those who are NO on impeachment based on the percentage of a district that has a bachelor's degree or higher ("pct_bachelors"), from lowest to highest.
-
+-
+-
+## Filtering for impeach dataset, then "NO" vote in the for_impeachement column, and then I sorted it using the arrange function on the pct_bachelors column. Again, it sorts in the direction of  lowest to highest by default. 
 ```{r}
 
 filter(impeach, for_impeachment == "NO") %>%
@@ -122,7 +137,9 @@ filter(impeach, for_impeachment == "NO") %>%
 8)  Sort the just those who are NO on impeachment based on the percentage of a district that has a bachelor's degree or higher ("pct_bachelors"), from lowest to highest.
 
 Then filter those records by only those whose bachelor's percentage is below the national average (found in the "pct_bachelors_compared_to_national" column).
-
+-
+-
+## Filtering for impeach dataset, then "NO" response in for_impeachment column, then "BELOW" response in the pct_bachelors_compared_to_national column. I sorted this filtered data using the arrange feature last, in order to keep the filter commands together. 
 ```{r}
 
 filter(impeach, for_impeachment == "NO", pct_bachelors_compared_to_national == "BELOW") %>%
@@ -132,7 +149,9 @@ filter(impeach, for_impeachment == "NO", pct_bachelors_compared_to_national == "
 ```
 
 9)  Filter for only members from New Jersey who are NO on impeachment.
-
+-
+-
+## Filter by the impeach dataset, then responses of "NJ" under state (for New Jersey), then a "NO" response in the for_impeachment column. 
 ```{r}
 
 
@@ -142,7 +161,9 @@ filter(impeach, state == "NJ", for_impeachment == "NO")
 ```
 
 10) Filter for those who were YES on impeachment, with a declared date prior to 2019. So only those with dates before 2019. Then sort those so that the highest Clinton vote percentages are at the top.
-
+-
+-
+## Filter by the impeach dataset, then "YES" responses for the for_impeachment column, then responses of less than (>) "2019" in the date_year column, and then I arranged all of those responses in descending order (highest to lowest) based on responses in the clinton_percent column.
 ```{r}
 
 
